@@ -10,7 +10,16 @@ class Model_penerbit extends CI_Model {
     public function hapus_penerbit($kode)
     {
         $this->db->where('kode_penerbit', $kode);
-        $this->db->delete('tb_penerbit');
+        $query = $this->db->get('tb_penerbit');
+
+        if($query->num_rows() > 0){
+            $this->session->set_flashdata('pesan', '<div class="alert alert-info" role="alert">Data gagal di hapus</div>');
+        }else{
+            $this->db->where('kode_penerbit', $kode);
+            $this->db->delete('tb_penerbit');
+            $this->session->set_flashdata('pesan', '<div class="alert alert-info" role="alert">Data berhasil di hapus</div>');
+        }
+
     }
 
     public function simpan_penerbit($data)

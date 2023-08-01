@@ -136,29 +136,10 @@ class pages extends CI_Controller {
 
 	public function hapus_penerbit()
 	{
-		$connection = mysqli_connect('localhost', 'root','', 'db_buku');
 		$this->load->model('Model_penerbit');
 		$kode = $this->uri->segment(3);
-
-		if(!$connection){
-			die("Database connection failed: ". mysqli_connect_error());
-		}  
-
-			$delete_query = "DELETE FROM tb_penerbit WHERE kode_penerbit = $kode";
-
-		if(mysqli_query($connection, $delete_query)){
-			redirect('pages/daftarPenerbit');
-			exit();
-		} else{
-			if(mysqli_errno($connection) == 1451){
-				$this->session->set_flashdata('pesan', '<div class="alert alert-info" role="alert">Data tidak bisa di hapus</div>');
-				redirect('pages/daftarPenerbit');
-			} else {
-				$error_message = "error deleting data: ".mysqli_error($connection);
-			}
-		}
 		$this->Model_penerbit->hapus_penerbit($kode);
-		$this->session->set_flashdata('pesan', '<div class="alert alert-info" role="alert">Data berhasil di hapus</div>');
+		// $this->session->set_flashdata('pesan', '<div class="alert alert-info" role="alert">Data berhasil di hapus</div>');
 
 		redirect('pages/daftarPenerbit');
 	}
